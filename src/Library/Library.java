@@ -70,17 +70,7 @@ public class Library {
         return book;
     }
 
-    public ArrayList<Book> showByGenre(Genre genre){
-        ArrayList<Book> list = new ArrayList<>();
-        listOfBooks.values()
-                .stream()
-                .filter(book -> book.getGenre() == genre)
-                .peek(book -> {
-                    System.out.println(book.toString());
-                })
-                .collect(Collectors.toList());
-        return list;
-    }
+
     public Book get(int id){
         return listOfBooks.get(id);
     }
@@ -103,6 +93,18 @@ public class Library {
                         .filter(book -> !book.isAvailable)
                         .peek(book -> System.out.println(book.toString()))
                         .collect(Collectors.toList());
+        return list;
+    }
+
+    public ArrayList<Book> showByGenre(Genre genre){
+        ArrayList<Book> list = new ArrayList<>();
+        listOfBooks.values()
+                .stream()
+                .filter(book -> book.getGenre() == genre)
+                .peek(book -> {
+                    System.out.println(book.toString());
+                })
+                .collect(Collectors.toList());
         return list;
     }
 

@@ -1,6 +1,7 @@
 package Library;
 
 public enum Genre {
+
     ROMANCE,
     ADVENTURE,
     HISTORY,
