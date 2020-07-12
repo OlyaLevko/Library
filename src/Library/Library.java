@@ -1,18 +1,19 @@
 package Library;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 //В цьому класі колекція книг і методи: подивитися доступні, подивитися на руках, подивитися за жанром,
 // додати книгу, видалити книгу.
 public class Library {
     HashMap<Integer, Book> listOfBooks;
+    Integer maxId;
+    Scanner sc = new Scanner(System.in);
 
 
     public Library(){
+
         listOfBooks = new HashMap<>();
+
         listOfBooks.put(1010, new Book("It Ends With Us", "COLLEEN HOOVER", Genre.ROMANCE));
         listOfBooks.put(1016, new Book("The Proposal", "JASMINE GUILLORY", Genre.ROMANCE));
         listOfBooks.put(1036, new Book("Vision In White", "NORA ROBERTS", Genre.ROMANCE));
@@ -47,10 +48,10 @@ public class Library {
         listOfBooks.put(1002, new Book(" The Fellowship of the Ring", "J. R. R. Tolkien", Genre.FANTASY));
         listOfBooks.put(1012, new Book(" Gardens of the Moon", "Steven Erikson", Genre.FANTASY));
         listOfBooks.put(1013, new Book("A Prayer for Owen Meany", "John Irving", Genre.PSYCHOLOGY));
-        listOfBooks.put(1049, new Book("I Know This Much Is True", " Wally Lamb", Genre.PSYCHOLOGY));
+        listOfBooks.put(1049, new Book("I Know This Much Is True", "Wally Lamb", Genre.PSYCHOLOGY));
         listOfBooks.put(1021, new Book("The Stranger", "Albert Camus", Genre.PSYCHOLOGY));
-        listOfBooks.put(1032, new Book("Sometimes I Lie", " Alice Feeney", Genre.PSYCHOLOGY));
-        listOfBooks.put(1044, new Book("Pippi Longstocking", " Astrid Lindgren", Genre.CHILDRENS));
+        listOfBooks.put(1032, new Book("Sometimes I Lie", "Alice Feeney", Genre.PSYCHOLOGY));
+        listOfBooks.put(1044, new Book("Pippi Longstocking", "Astrid Lindgren", Genre.CHILDRENS));
         listOfBooks.put(1024, new Book("The Little Prince", "Antoine de Saint-Exupery", Genre.CHILDRENS));
         listOfBooks.put(1035, new Book("The Hobbit", "JRR Tolkein", Genre.CHILDRENS));
         listOfBooks.put(1046, new Book("Winnie-the-Pooh", "A A Milne", Genre.CHILDRENS));
@@ -64,9 +65,32 @@ public class Library {
         listOfBooks.put(1037, new Book("The Moral Animal", "Robert Wright", Genre.PHILOSOPHY));
         listOfBooks.put(1030, new Book("Atlas Shrugged", "Ayn Rand", Genre.PHILOSOPHY));
 
+         maxId = listOfBooks.keySet().stream()
+               .max(Comparator.naturalOrder())
+                .get();
     }
-    public Book add(Integer id, Book book){
-        listOfBooks.put(id, book);
+    public Book addBook(){
+
+        System.out.println("Enter the book title.");
+        String title = sc.nextLine();
+        System.out.println("Enter the book author.");
+        String author = sc.nextLine();
+        while(!author.matches("^[\\p{L} .'-]+$")){
+            System.out.println("You entered author incorrectly.");
+            System.out.println("Author name can contain only characters, whitespace, dots, apostrophes or hyphen's.");
+            System.out.println(" Please, try again.");
+            author = sc.nextLine();
+        }
+        System.out.println("Enter the number of genre.");
+        Genre.listOfGenre();
+        String g = sc.nextLine();
+        regGenre(g);
+        int a = Integer.parseInt(g);
+        Genre genre = Genre.switchGenre(a);
+
+        Book book = new Book(title, author, genre);
+          listOfBooks.put(++maxId, book);
+        System.out.println(book.toString() + " was added.");
         return book;
     }
 
@@ -74,8 +98,9 @@ public class Library {
     public Book get(int id){
         return listOfBooks.get(id);
     }
-    public Book remove(int id){
-        return listOfBooks.remove(id);
+
+    public Book removeBook(){
+        return listOfBooks.remove(sc.nextLine());
     }
 
     public List<Book> showAvailable(){
@@ -108,66 +133,31 @@ public class Library {
         return list;
     }
 
-    public void viewByGenre(){
-        Scanner sc = new Scanner(System.in);
-
+    public void showByGenre(){
         do
         {
             System.out.println("Please, choose the number of genre: ");
             Genre.listOfGenre();
             String st = sc.nextLine();
-            while(!st.matches("^([1-9]|10|11|12)")){
-                System.out.println("You entered an incorrect number of genre. Please, try again.");
-                Genre.listOfGenre();
-                st = sc.nextLine();
-            }
+            st = regGenre(st);
             int a = Integer.parseInt(st);
-            switch(a){
-                case(1):
-                    showByGenre(Genre.ROMANCE);
-                    break;
-                case(2):
-                    showByGenre(Genre.ADVENTURE);
-                    break;
-                case(3):
-                    showByGenre(Genre.HISTORY);
-                    break;
-                case(4):
-                    showByGenre(Genre.THRILLER);
-                    break;
-                case(5):
-                    showByGenre(Genre.HORROR);
-                    break;
-                case(6):
-                    showByGenre(Genre.DETECTIVE);
-                    break;
-                case(7):
-                    showByGenre(Genre.COMICS);
-                    break;
-                case(8):
-                    showByGenre(Genre.FANTASY);
-                    break;
-                case(9):
-                    showByGenre(Genre.PSYCHOLOGY);
-                    break;
-                case(10):
-                    showByGenre(Genre.CHILDRENS);
-                    break;
-                case(11):
-                    showByGenre(Genre.SCIENCE);
-                    break;
-                case(12):
-                    showByGenre(Genre.PHILOSOPHY);
-                    break;
-                default:
-                    System.out.println("The genre has not found.");
-            }
-
+            showByGenre(Genre.switchGenre(a));
             System.out.println("To choose another genre - enter yes or no.");
-
+            //подумати, як варифікувати ввід yes
         }
         while(!"no".equals(sc.nextLine()));
 
-    }
+        }
+
+
+        public String regGenre(String s) {
+             while(!s.matches("^([1-9]|10|11|12)")){
+                 System.out.println("You entered an incorrect number of genre. Please, try again.");
+                 Genre.listOfGenre();
+                 s = sc.nextLine();
+             }
+             return s;
+         }
+
 
 }

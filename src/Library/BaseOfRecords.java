@@ -11,6 +11,8 @@ public class BaseOfRecords {
     public BaseOfRecords() {
         records = new ArrayList<>();
     }
+
+
     public void addRecord(String firstname, String surname, int bookNumber){
         records.add(new Record(firstname, surname, bookNumber));
     }

@@ -36,7 +36,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        if(author.matches("[a-zA-Z]"))//потрібно дописати регулярку
+        if(author.matches("^[\\p{L} .'-]+$"))//потрібно дописати регулярку
             this.author = author;
     }
 
@@ -45,6 +45,7 @@ public class Book {
     }
 
     public void setGenre(Genre genre) {
+
         this.genre = genre;
     }
 }
