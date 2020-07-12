@@ -19,8 +19,7 @@ public class Menu {
         System.out.println("2. look at the available books");
         System.out.println("3. look at all genres");
         System.out.println("4. take a book / books");
-        System.out.println("5. delete book");
-        System.out.println("6. exit the program");
+        System.out.println("5. exit the program");
         UserService us = new UserService();
         us.inputUser();
     }

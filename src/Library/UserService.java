@@ -40,16 +40,12 @@ public class UserService extends Library{
                 // ...
             }
             case 5 -> {
-                // delete book
-                // ....
-            }
-            case 6 -> {
                 // exit the program
                 System.out.println("the program is closed");
                 System.exit(0);
             }
             default -> {
-                System.out.println("please select items 1-6: ");
+                System.out.println("please select items 1-5: ");
                 Scanner scan = new Scanner(System.in);
                 menuUser(scan.nextInt());
             }
