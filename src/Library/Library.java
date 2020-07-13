@@ -69,8 +69,8 @@ public class Library {
                .max(Comparator.naturalOrder())
                 .get();
     }
-    public Book addBook(){
 
+    public Book addBook(){
         System.out.println("Enter the book title.");
         String title = sc.nextLine();
         System.out.println("Enter the book author.");
@@ -99,55 +99,58 @@ public class Library {
         return listOfBooks.get(id);
     }
 
+    //метод removeBook() потрібно опрацювати (Мирон)
+
     public Book removeBook(){
         return listOfBooks.remove(sc.nextLine());
     }
 
-    public List<Book> showAvailable(){
-        List<Book> list =
-                listOfBooks.values().stream()
+    public List<String> showAvailable(){
+        List<String> list =
+                listOfBooks.values()
+                        .stream()
                         .filter(book -> book.isAvailable)
-                        .peek(book -> System.out.println(book.toString()))
+                        .map(Book::toString)
+                        .peek(System.out::println)
                         .collect(Collectors.toList());
         return list;
     }
 
-    public List<Book> showInUsing(){
-        List<Book> list =
-                listOfBooks.values().stream()
+    public List<String> showInUsing(){
+        List<String> list =
+                listOfBooks.values()
+                        .stream()
                         .filter(book -> !book.isAvailable)
-                        .peek(book -> System.out.println(book.toString()))
+                        .map(Book::toString)
+                        .peek(System.out::println)
                         .collect(Collectors.toList());
         return list;
     }
 
-    public ArrayList<Book> showByGenre(Genre genre){
-        ArrayList<Book> list = new ArrayList<>();
+    public ArrayList<String> showByGenre(Genre genre){
+        ArrayList<String> list = new ArrayList<>();
         listOfBooks.values()
                 .stream()
                 .filter(book -> book.getGenre() == genre)
-                .peek(book -> {
-                    System.out.println(book.toString());
-                })
+                .map(Book::toString)
+                .peek(System.out::println)
                 .collect(Collectors.toList());
         return list;
     }
 
     public void showByGenre(){
-        do
-        {
+        do {
             System.out.println("Please, choose the number of genre: ");
             Genre.listOfGenre();
             String st = sc.nextLine();
             st = regGenre(st);
             int a = Integer.parseInt(st);
             showByGenre(Genre.switchGenre(a));
-            System.out.println("To choose another genre - enter yes or no.");
-            //подумати, як варифікувати ввід yes
-        }
-        while(!"no".equals(sc.nextLine()));
+            System.out.println("To choose another genre - enter \"yes\" or \"no\".");
 
         }
+        while(!"no".equals(sc.nextLine()));
+    }
 
 
         public String regGenre(String s) {

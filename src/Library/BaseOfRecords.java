@@ -13,7 +13,13 @@ public class BaseOfRecords {
     }
 
 
-    public void addRecord(String firstname, String surname, int bookNumber){
-        records.add(new Record(firstname, surname, bookNumber));
+    public Record addRecord(String firstName, String surname, int bookNumber){
+        Record r = new Record(firstName, surname, bookNumber);
+        records.add(r);
+        return r;
     }
+
+    // тут має бути метод takeBook() який відповідає опції взяти книгу (Валентин)
+
+    //тут має бути метод showDebtors() який показує боржників (Валентин)
 }
