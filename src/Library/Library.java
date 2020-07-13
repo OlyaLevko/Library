@@ -2,11 +2,14 @@ package Library;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 //В цьому класі колекція книг і методи: подивитися доступні, подивитися на руках, подивитися за жанром,
 // додати книгу, видалити книгу.
 public class Library {
     HashMap<Integer, Book> listOfBooks;
-    Integer maxId;
+    int maxId;
+    int minId;
     Scanner sc = new Scanner(System.in);
 
 
@@ -45,8 +48,8 @@ public class Library {
         listOfBooks.put(1023, new Book("Megahex", "Simon Hanselmann", Genre.COMICS));
         listOfBooks.put(1008, new Book("Dune", "Frank Herbert", Genre.FANTASY));
         listOfBooks.put(1003, new Book("A Song of Ice and Fire", "George R.R. Martin", Genre.FANTASY));
-        listOfBooks.put(1002, new Book(" The Fellowship of the Ring", "J. R. R. Tolkien", Genre.FANTASY));
-        listOfBooks.put(1012, new Book(" Gardens of the Moon", "Steven Erikson", Genre.FANTASY));
+        listOfBooks.put(1002, new Book("The Fellowship of the Ring", "J. R. R. Tolkien", Genre.FANTASY));
+        listOfBooks.put(1012, new Book("Gardens of the Moon", "Steven Erikson", Genre.FANTASY));
         listOfBooks.put(1013, new Book("A Prayer for Owen Meany", "John Irving", Genre.PSYCHOLOGY));
         listOfBooks.put(1049, new Book("I Know This Much Is True", "Wally Lamb", Genre.PSYCHOLOGY));
         listOfBooks.put(1021, new Book("The Stranger", "Albert Camus", Genre.PSYCHOLOGY));
@@ -66,7 +69,10 @@ public class Library {
         listOfBooks.put(1030, new Book("Atlas Shrugged", "Ayn Rand", Genre.PHILOSOPHY));
 
          maxId = listOfBooks.keySet().stream()
-               .max(Comparator.naturalOrder())
+                 .max(Comparator.naturalOrder())
+                 .get();
+         minId = listOfBooks.keySet().stream()
+                .min(Comparator.naturalOrder())
                 .get();
     }
 
@@ -105,26 +111,32 @@ public class Library {
         return listOfBooks.remove(sc.nextLine());
     }
 
-    public List<String> showAvailable(){
-        List<String> list =
-                listOfBooks.values()
-                        .stream()
-                        .filter(book -> book.isAvailable)
-                        .map(Book::toString)
-                        .peek(System.out::println)
-                        .collect(Collectors.toList());
-        return list;
+    public void showListOfBooks(){
+         listOfBooks.entrySet().stream()
+                 .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                 .collect(Collectors.toSet());
     }
 
-    public List<String> showInUsing(){
-        List<String> list =
-                listOfBooks.values()
-                        .stream()
-                        .filter(book -> !book.isAvailable)
-                        .map(Book::toString)
-                        .peek(System.out::println)
-                        .collect(Collectors.toList());
-        return list;
+    public void showAvailable(){
+        Set<Map.Entry<Integer, Book>> s =
+                listOfBooks.entrySet().stream()
+                        .filter(pair -> pair.getValue().isAvailable)
+                        .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                        .collect(Collectors.toSet());
+        if(s.size() ==0){
+            System.out.println("There is not any book to take to read.");
+        }
+    }
+
+    public void showInUsing(){
+        Set<Map.Entry<Integer, Book>> s =
+                listOfBooks.entrySet().stream()
+                .filter(pair -> !pair.getValue().isAvailable)
+                .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                .collect(Collectors.toSet());
+                if(s.size() ==0){
+                    System.out.println("There is not any book, which is taken to read.");
+                }
     }
 
     public ArrayList<String> showByGenre(Genre genre){
