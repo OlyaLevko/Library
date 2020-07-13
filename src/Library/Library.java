@@ -76,28 +76,33 @@ public class Library {
                 .get();
     }
 
-    public Book addBook(){
-        System.out.println("Enter the book title.");
-        String title = sc.nextLine();
-        System.out.println("Enter the book author.");
-        String author = sc.nextLine();
-        while(!author.matches("^[\\p{L} .'-]+$")){
-            System.out.println("You entered author incorrectly.");
-            System.out.println("Author name can contain only characters, whitespace, dots, apostrophes or hyphen's.");
-            System.out.println(" Please, try again.");
-            author = sc.nextLine();
-        }
-        System.out.println("Enter the number of genre.");
-        Genre.listOfGenre();
-        String g = sc.nextLine();
-        regGenre(g);
-        int a = Integer.parseInt(g);
-        Genre genre = Genre.switchGenre(a);
+    public void addBook(){
+        do {
+            System.out.println("Enter the book title.");
+            String title = sc.nextLine();
+            System.out.println("Enter the book author.");
+            String author = sc.nextLine();
+            while (!author.matches("^[\\p{L} .'-]+$")) {
+                System.out.println("You entered author incorrectly.");
+                System.out.println("Author name can contain only characters, whitespace, dots, apostrophes or hyphen's.");
+                System.out.println("Please, try again.");
+                author = sc.nextLine();
+            }
+            System.out.println("Enter the number of genre.");
+            Genre.listOfGenre();
+            String g = sc.nextLine();
+            regGenre(g);
+            int a = Integer.parseInt(g);
+            Genre genre = Genre.switchGenre(a);
 
-        Book book = new Book(title, author, genre);
-          listOfBooks.put(++maxId, book);
-        System.out.println(book.toString() + " was added.");
-        return book;
+            Book book = new Book(title, author, genre);
+            listOfBooks.put(++maxId, book);
+            System.out.println(book + " was added.\n");
+            System.out.println("Do you want to add one more book?");
+            System.out.println("Please enter \"yes\" or \"no\".");
+
+        }
+        while(!"no".equals(sc.nextLine()));
     }
 
 
@@ -108,6 +113,8 @@ public class Library {
     //метод removeBook() потрібно опрацювати (Мирон)
 
     public Book removeBook(){
+        String title = sc.nextLine();
+        listOfBooks.entrySet().removeIf(e ->title.equals(e.getValue().getTitle()));
         return listOfBooks.remove(sc.nextLine());
     }
 
