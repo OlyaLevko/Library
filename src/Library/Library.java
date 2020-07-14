@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 // додати книгу, видалити книгу.
 public class Library {
     HashMap<Integer, Book> listOfBooks;
+    BaseOfRecords baseOfRecords;
     int maxId;
     int minId;
     Scanner sc = new Scanner(System.in);
@@ -16,6 +17,7 @@ public class Library {
     public Library(){
 
         listOfBooks = new HashMap<>();
+        baseOfRecords = new BaseOfRecords();
 
         listOfBooks.put(1010, new Book("It Ends With Us", "COLLEEN HOOVER", Genre.ROMANCE));
         listOfBooks.put(1016, new Book("The Proposal", "JASMINE GUILLORY", Genre.ROMANCE));
@@ -74,6 +76,16 @@ public class Library {
          minId = listOfBooks.keySet().stream()
                 .min(Comparator.naturalOrder())
                 .get();
+
+         List<Integer> listOfBookNumber = baseOfRecords.records.stream()
+                 .map(record -> record.bookNumber)
+                 .collect(Collectors.toList());
+
+         listOfBooks.entrySet().stream()
+                 .filter(pair -> listOfBookNumber.contains(pair.getKey()))
+                 .map(pair -> pair.getValue().isAvailable = false)
+                 .collect(Collectors.toSet());
+
     }
 
     public void addBook(){
@@ -180,6 +192,8 @@ public class Library {
              }
              return s;
          }
+    // тут має бути метод takeBook() який відповідає опції взяти книгу (Валентин)
 
+    //тут має бути метод showDebtors() який показує боржників (Валентин)
 
 }
