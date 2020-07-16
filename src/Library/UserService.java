@@ -1,11 +1,14 @@
 package Library;
 //Панель керування меню користувача
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class UserService extends Library{
+public class UserService extends Library {
 
-    //  Exception message if incorrect data
+    Menu menu = new Menu();
+
+    //  if incorrect data, then Exception message
     public void inputUser() {
 
         Scanner scan = new Scanner(System.in);
@@ -19,7 +22,7 @@ public class UserService extends Library{
     }
 
     //  menu User select items
-    private void menuUser(int choice) {
+    public void menuUser(int choice) {
 
         switch (choice) {
             case 1 -> {
@@ -30,10 +33,12 @@ public class UserService extends Library{
             case 2 -> {
                 // look at the available books
                 showAvailable();
+                menu.startApp();
             }
             case 3 -> {
                 // look at all genres
                 viewByGenre();
+                menu.startApp();
             }
             case 4 -> {
                 // take a book

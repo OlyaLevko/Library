@@ -1,10 +1,11 @@
 package Library;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 //панель керування меню адміна
 public class AdminService extends Library {
+
     Menu menu = new Menu();
 
     private boolean isAdmin(String username) {
@@ -25,7 +26,7 @@ public class AdminService extends Library {
     }
 
     //  menu Admin select items
-    private void menuAdmin(int choice) {
+    public void menuAdmin(int choice) {
 
         switch (choice) {
             case 1 -> {
@@ -33,16 +34,22 @@ public class AdminService extends Library {
                 // ...
             }
             case 2 -> {
-                // delete book
-                // ...
+                // remove book
+                listOfBooks.entrySet().stream()
+                        .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                        .collect(Collectors.toSet());
+                System.out.println("choice by index book delete: ");
+                Scanner sc = new Scanner(System.in);
+                remove(sc.nextInt());
             }
+
             case 3 -> {
                 // look at the available books
                 // ...
             }
             case 4 -> {
                 // books that users have
-                showInUsing();
+                // ...
             }
             case 5 -> {
                 // look at debtors
@@ -92,5 +99,36 @@ public class AdminService extends Library {
         if (isAdmin(login)) {
             menu.startAdmin();
         }
+    }
+
+    @Override
+    public Book remove(int id) {
+
+        if (listOfBooks.containsKey(id)) {
+
+            System.out.println("are you sure remove book " + id + " ?, yes or no: ");
+            Scanner scan = new Scanner(System.in);
+            String str = scan.nextLine();
+            do {
+
+                if (str.matches("yes")) {
+                    listOfBooks.remove(id);
+
+                    System.out.println("book " + id + " has been deleted");
+                    menu.startAdmin();
+
+                } else if (str.matches("no")) {
+                    menu.startAdmin();
+
+                } else {
+                    System.out.println("please type correct data");
+                    remove(id);
+                }
+
+
+            } while (!str.matches("yes") || !str.matches("no"));
+
+        }
+        return listOfBooks.remove(id);
     }
 }
