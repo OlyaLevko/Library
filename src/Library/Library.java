@@ -96,7 +96,7 @@ public class Library {
             String author = sc.nextLine();
             while (!author.matches("^[\\p{L} .'-]+$")) {
                 System.out.println("You entered author incorrectly.");
-                System.out.println("Author name can contain only characters, whitespace, dots, apostrophes or hyphen's.");
+                System.out.println("Author name can contain only characters, whitespace, dots, apostrophes or dashes.");
                 System.out.println("Please, try again.");
                 author = sc.nextLine();
             }

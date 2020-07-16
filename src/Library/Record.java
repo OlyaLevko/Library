@@ -1,6 +1,7 @@
 package Library;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
@@ -11,27 +12,27 @@ public class Record {
 
     User user;
     int bookNumber;
-    GregorianCalendar date;
+    LocalDate date;
 
 
     public Record(String firstName, String surname, int bookNumber) {
         this.user = new User(firstName, surname);
         this.bookNumber = bookNumber;
-        this.date = new GregorianCalendar();
+        this.date = LocalDate.now();
 
     }
 
     public Record(String firstName, String surname, int bookNumber, int year, int month, int day) {
         this.user = new User(firstName, surname);
         this.bookNumber = bookNumber;
-        this.date = new GregorianCalendar(year, month-1, day);
+        this.date = LocalDate.of(year, month, day);
 
     }
 
     @Override
     public String toString() {
-        SimpleDateFormat formatForDateNow = new SimpleDateFormat("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         return user.getFirstName() + " " + user.getSurName() + " has taken a book with a number " +
-                bookNumber +" on " + date.toZonedDateTime().format(DateTimeFormatter.ofPattern("d.MM.uuuu"));
+                bookNumber +" on " + formatter.format(date);
     }
 }
