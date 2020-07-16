@@ -4,9 +4,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 //панель керування меню адміна
-public class AdminService extends Library {
+public class AdminService {
 
     Menu menu = new Menu();
+    Library library = new Library();
 
     private boolean isAdmin(String username) {
         return "admin".equals(username);
@@ -35,7 +36,7 @@ public class AdminService extends Library {
             }
             case 2 -> {
                 // remove book
-                listOfBooks.entrySet().stream()
+                library.listOfBooks.entrySet().stream()
                         .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
                         .collect(Collectors.toSet());
                 System.out.println("choice by index book delete: ");
@@ -101,10 +102,10 @@ public class AdminService extends Library {
         }
     }
 
-    @Override
+
     public Book remove(int id) {
 
-        if (listOfBooks.containsKey(id)) {
+        if (library.listOfBooks.containsKey(id)) {
 
             System.out.println("are you sure remove book " + id + " ?, yes or no: ");
             Scanner scan = new Scanner(System.in);
@@ -112,7 +113,7 @@ public class AdminService extends Library {
             do {
 
                 if (str.matches("yes")) {
-                    listOfBooks.remove(id);
+                    library.listOfBooks.remove(id);
 
                     System.out.println("book " + id + " has been deleted");
                     menu.startAdmin();
@@ -129,6 +130,6 @@ public class AdminService extends Library {
             } while (!str.matches("yes") || !str.matches("no"));
 
         }
-        return listOfBooks.remove(id);
+        return library.listOfBooks.remove(id);
     }
 }

@@ -4,9 +4,10 @@ package Library;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class UserService extends Library {
+public class UserService {
 
     Menu menu = new Menu();
+    Library library = new Library();
 
     //  if incorrect data, then Exception message
     public void inputUser() {
@@ -32,12 +33,12 @@ public class UserService extends Library {
             }
             case 2 -> {
                 // look at the available books
-                showAvailable();
+                library.showAvailable();
                 menu.startApp();
             }
             case 3 -> {
                 // look at all genres
-                viewByGenre();
+                library.viewByGenre();
                 menu.startApp();
             }
             case 4 -> {
