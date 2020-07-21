@@ -5,7 +5,8 @@ public class User {
     private  String firstName;
     private String surName;
 
-
+    public User() {
+    }
 
     public User(String firstName, String surName) {
         this.firstName = firstName;
@@ -18,7 +19,7 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        if(firstName.matches("^[A-Z][a-z]{1,20}")) {
+        if(firstName.matches("^[A-Z][\\p{L}'-]+$")) {
             this.firstName = firstName;
         }
         else System.out.println("You are trying to enter an incorrect First name.");
@@ -29,7 +30,7 @@ public class User {
     }
 
     public void setSurName(String surName) {
-        if(surName.matches("^[A-Z][a-z]{1,20}")) {
+        if(surName.matches("^[A-Z][\\p{L}'-]+$")) {
             this.surName = surName;
         }
         else System.out.println("You are trying to enter an incorrect Surname.");

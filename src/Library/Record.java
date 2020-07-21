@@ -15,15 +15,15 @@ public class Record {
     LocalDate date;
 
 
-    public Record(String firstName, String surname, int bookNumber) {
-        this.user = new User(firstName, surname);
+    public Record(User user, int bookNumber) {
+        this.user = user;
         this.bookNumber = bookNumber;
         this.date = LocalDate.now();
 
     }
 
-    public Record(String firstName, String surname, int bookNumber, int year, int month, int day) {
-        this.user = new User(firstName, surname);
+    public Record(User user, int bookNumber, int year, int month, int day) {
+        this.user = user;
         this.bookNumber = bookNumber;
         this.date = LocalDate.of(year, month, day);
 

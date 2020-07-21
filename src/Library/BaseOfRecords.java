@@ -7,27 +7,28 @@ import java.util.ArrayList;
 public class BaseOfRecords {
 
     ArrayList<Record> records;
+    BaseOfUsers users;
 
 
 
     public BaseOfRecords() {
-
+        users = new BaseOfUsers();
         records = new ArrayList<>();
-        records.add(new Record("Robert", "Stark", 1010, 2020, 07, 10));
-        records.add(new Record("John", "Snow", 1032, 2020, 07, 14));
-        records.add(new Record("Daenerys", "Targaryen", 1015, 2020,06, 30));
-        records.add(new Record("Tyrion","Lannister", 1046, 2020,06,21));
-        records.add(new Record("The Night", "King", 1047, 2020,03,03));
-        records.add(new Record("The Night", "King", 1032, 2020,03,03));
-        records.add(new Record("Samwell", "Tarly", 1001, 2020,07,13));
-        records.add(new Record("Sansa", "Stark", 1020, 2020,07,14));
-        records.add(new Record("Jaime", "Lannister", 1040, 2020,07,01));
+        records.add(new Record(users.getUser("KingInTheNorth"), 1010, 2020, 07, 19));
+        records.add(new Record(users.getUser("TheGeneratorOfGeniusIdeas"), 1032, 2020, 07, 14));
+        records.add(new Record(users.getUser("TheMotherOfDragons"), 1015, 2020,06, 30));
+        records.add(new Record(users.getUser("TheGiant"), 1046, 2020,06,21));
+        records.add(new Record(users.getUser("TheOwnerOfHumanMinds"), 1047, 2020,03,03));
+        records.add(new Record(users.getUser("TheOwnerOfHumanMinds"), 1032, 2020,03,03));
+        records.add(new Record(users.getUser("TheBookWorm"), 1001, 2020,07,21));
+        records.add(new Record(users.getUser("PrettyLittleGirl"), 1020, 2020,07,14));
+        records.add(new Record(users.getUser("TheHandsome"), 1040, 2020,07,21));
 
     }
 
 
     public Record addRecord(String firstName, String surname, int bookNumber){
-        Record r = new Record(firstName, surname, bookNumber);
+        Record r = new Record(new User(firstName, surname), bookNumber);
         records.add(r);
         return r;
     }
