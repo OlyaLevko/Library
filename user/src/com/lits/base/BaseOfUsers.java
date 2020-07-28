@@ -1,10 +1,13 @@
-package Library;
+package com.lits.base;
+
+import com.lits.servise.UserOption;
+import com.lits.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class BaseOfUsers {
-    Map<String, User> baseOfUsers;
+    private Map<String, User> baseOfUsers;
     //key = login;
 
     public BaseOfUsers() {
@@ -25,5 +28,13 @@ public class BaseOfUsers {
 
     public User getUser(String login){
         return baseOfUsers.get(login);
+    }
+
+    public Map<String, User> getBaseOfUsers() {
+        return baseOfUsers;
+    }
+
+    public void setBaseOfUsers(Map<String, User> baseOfUsers) {
+        this.baseOfUsers = baseOfUsers;
     }
 }

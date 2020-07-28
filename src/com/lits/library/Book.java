@@ -1,4 +1,4 @@
-package Library;
+package com.lits.library;
 
 public class Book {
 
