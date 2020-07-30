@@ -1,16 +1,17 @@
 package Library;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-//панель керування меню адміна
 public class AdminService {
 
-    Menu menu = new Menu();
-    Library library = new Library();
+    private final String ADMIN = "admin";
 
+    Library library = new Library();
+    Menu menu = new Menu();
+
+    //  equals admin
     private boolean isAdmin(String username) {
-        return "admin".equals(username);
+        return ADMIN.equals(username);
     }
 
     //  if incorrect data, then Exception message
@@ -20,8 +21,8 @@ public class AdminService {
         try {
             menuAdmin(scan.nextInt());
 
-        } catch (InputMismatchException e) {
-            System.err.println(e + " - incorrect data, please try again");
+        } catch (IncorrectLoginException e) {
+            System.err.println(e.toString());
             inputAdmin();
         }
     }
@@ -32,29 +33,25 @@ public class AdminService {
         switch (choice) {
             case 1 -> {
                 // add book / books
-                // ...
+                library.addBook();
+
             }
             case 2 -> {
                 // remove book
-                library.listOfBooks.entrySet().stream()
-                        .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
-                        .collect(Collectors.toSet());
-                System.out.println("choice by index book delete: ");
-                Scanner sc = new Scanner(System.in);
-                remove(sc.nextInt());
+                library.removeBook();
             }
 
             case 3 -> {
-                // look at the available books
-                // ...
+                // available books
+                library.showAvailable();
             }
             case 4 -> {
-                // books that users have
-                // ...
+                // using book
+                library.showInUsing();
             }
             case 5 -> {
-                // look at debtors
-                // ...
+                // debtors
+                // library.showDebtors();
             }
             case 6 -> {
                 // return to the main menu
@@ -68,30 +65,34 @@ public class AdminService {
         }
     }
 
-    //  login admin input
+    // login admin
     public void loginAdmin() {
 
         System.out.println("please type login: ");
         Scanner scan = new Scanner(System.in);
-        String strLogin = scan.nextLine();
-        do {
-
-            if (strLogin.matches("admin")) {
-                checkLogin("admin");
-
+        String login = scan.nextLine();
+        try {
+            if (login.equals(ADMIN)) {
+                checkLogin(ADMIN);
             } else {
-                System.out.println("incorrect login, please type login or 'exit': ");
-                strLogin = scan.nextLine();
-
-                if (strLogin.matches("admin")) {
-                    checkLogin("admin");
-
-                } else if (strLogin.matches("exit")) {
-                    menu.startApp();
-                }
+                throw new IncorrectLoginException("incorrect login, please try again:");
             }
-
-        } while (!strLogin.matches("admin") || !strLogin.matches("exit"));
+        } catch (IncorrectLoginException e) {
+            System.out.println(e.toString());
+            String loginAdmin = scan.nextLine();
+            String EXIT = "exit";
+            if (loginAdmin.equals(ADMIN)) {
+                checkLogin(ADMIN);
+            } else
+                System.err.println("incorrect login, please type correct login or type " + EXIT);
+            String loginChoice = scan.nextLine();
+            if (loginChoice.equals(EXIT)) {
+                menu.startApp();
+            } else if (loginChoice.equals(ADMIN)) {
+                checkLogin(ADMIN);
+            }
+        }
+        loginAdmin();
     }
 
     //  check for admin
@@ -100,36 +101,5 @@ public class AdminService {
         if (isAdmin(login)) {
             menu.startAdmin();
         }
-    }
-
-
-    public Book remove(int id) {
-
-        if (library.listOfBooks.containsKey(id)) {
-
-            System.out.println("are you sure remove book " + id + " ?, yes or no: ");
-            Scanner scan = new Scanner(System.in);
-            String str = scan.nextLine();
-            do {
-
-                if (str.matches("yes")) {
-                    library.listOfBooks.remove(id);
-
-                    System.out.println("book " + id + " has been deleted");
-                    menu.startAdmin();
-
-                } else if (str.matches("no")) {
-                    menu.startAdmin();
-
-                } else {
-                    System.out.println("please type correct data");
-                    remove(id);
-                }
-
-
-            } while (!str.matches("yes") || !str.matches("no"));
-
-        }
-        return library.listOfBooks.remove(id);
     }
 }

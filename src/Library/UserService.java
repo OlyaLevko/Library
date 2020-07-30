@@ -1,13 +1,11 @@
 package Library;
-//Панель керування меню користувача
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserService {
 
-    Menu menu = new Menu();
     Library library = new Library();
+    AdminService adminService = new AdminService();
 
     //  if incorrect data, then Exception message
     public void inputUser() {
@@ -16,8 +14,8 @@ public class UserService {
         try {
             menuUser(scan.nextInt());
 
-        } catch (InputMismatchException e) {
-            System.err.println(e + " - incorrect data, please try again");
+        } catch (IncorrectLoginException e) {
+            System.err.println(e.toString());
             inputUser();
         }
     }
@@ -28,22 +26,21 @@ public class UserService {
         switch (choice) {
             case 1 -> {
                 // admin
-                AdminService ad = new AdminService();
-                ad.loginAdmin();
+                adminService.loginAdmin();
             }
             case 2 -> {
-                // look at the available books
+                // available books
                 library.showAvailable();
-                menu.startApp();
+
             }
             case 3 -> {
-                // look at all genres
-                library.viewByGenre();
-                menu.startApp();
+                // look genres
+                library.showByGenre();
+
             }
             case 4 -> {
                 // take a book
-                // ...
+                library.takeBook();
             }
             case 5 -> {
                 // exit the program
