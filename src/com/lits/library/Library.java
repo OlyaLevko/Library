@@ -1,6 +1,7 @@
 package com.lits.library;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -9,8 +10,8 @@ public class Library {
    private BaseOfRecords baseOfRecords;
    private int maxId;
    private int minId;
-   final private String yes = "yes", no = "no",
-           firstName = "first name", surname = "surname";
+   final private String YES = "yes", NO = "no",
+           FIRST_NAME = "first name", SURNAME = "surname";
    Scanner sc = new Scanner(System.in);
 
     public Library(){
@@ -97,13 +98,13 @@ public class Library {
             Book book = new Book(title, author, genre);
             System.out.println("Do you want to add " + book + " to the library? Please, enter yes or no.");
             String st = verifyYesOrNo(sc.nextLine());
-            if (yes.equals(st)) {
+            if (YES.equals(st)) {
                 listOfBooks.put(++maxId, book);
                 System.out.println(book + " was added.\n");
             }
             System.out.println("Do you want to add another book? Please, enter yes or no.");
             st = verifyYesOrNo(sc.nextLine());
-            if(yes.equals(st))
+            if(YES.equals(st))
                 addBook();
     }
 
@@ -113,10 +114,9 @@ public class Library {
 
     //метод removeBook() потрібно опрацювати (Мирон)
         public void removeBook(){
-                System.out.println("Enter book number.");
-                int id = sc.nextInt();
-                listOfBooks.remove(id);
+
         }
+
 
     public void showListOfBooks(){
          listOfBooks.entrySet().stream()
@@ -164,7 +164,7 @@ public class Library {
             showByGenre(Genre.switchGenre(a));
             System.out.println("\nDo you want to choose another genre - enter yes or no.");
             st = verifyYesOrNo(sc.nextLine());
-            if(yes.equals(st))
+            if(YES.equals(st))
                 showByGenre();
     }
 
@@ -199,16 +199,22 @@ public class Library {
 
     public int verifyId(String entry){
         while(!entry.matches("[0-9]+")){
-            System.out.println("You entered an incorrect number. A number can consist of only digits. Please try again.");
+           printEnteringBookNumber();
             entry = sc.nextLine();
         }
         int number = Integer.parseInt(entry);
         while(number< minId || number> maxId){
-            System.out.println("You entered an incorrect number.");
-            System.out.println("A number must be from " + minId + " up to " +maxId +".");
-            number = sc.nextInt();
+            printEnteringBookNumber();
+            number = verifyId(sc.nextLine());
+
         }
         return  number;
+    }
+
+    private void printEnteringBookNumber() {
+        System.out.println("You entered an incorrect number.");
+        System.out.println("A number must be from " + minId + " up to " +maxId +".");
+        System.out.println("Please try again.");
     }
 
     public String verifyYesOrNo(String s) {
@@ -247,7 +253,7 @@ public class Library {
                 } finally {
                     System.out.println("Do you want to search another book\'s title? Please, enter yes or no.");
                     String st = verifyYesOrNo(sc.nextLine());
-                    if(yes.equals(st))
+                    if(YES.equals(st))
                         showByTitle();
                 }
     }
@@ -262,7 +268,7 @@ public class Library {
             } finally {
                 System.out.println("Do you want to search books by another author? Please, enter yes or no.");
                 String st = verifyYesOrNo(sc.nextLine());
-                if(yes.equals(st))
+                if(YES.equals(st))
                     showByAuthor();
             }
     }
@@ -292,7 +298,7 @@ public class Library {
             takeBook(number);
             System.out.println("Do you want to choose another book? Please, enter yes or no.");
             st = verifyYesOrNo(sc.nextLine());
-            if (yes.equals(st))
+            if (YES.equals(st))
                 takeBook();
         }
         if(st.matches("2"))
@@ -302,7 +308,7 @@ public class Library {
             System.out.println("The book is not available to take.");
             System.out.println("Do you want to choose another book?");
             st = verifyYesOrNo(sc.nextLine());
-            if(yes.equals(st))
+            if(YES.equals(st))
                 takeBook();
         }
     }
@@ -343,9 +349,9 @@ public class Library {
             }
             else{
                 System.out.println("Please, enter your first name.");
-                String fname = verifyName(sc.nextLine(), firstName);
+                String fname = verifyName(sc.nextLine(), FIRST_NAME);
                 System.out.println("Please, enter your surname.");
-                String sname = verifyName(sc.nextLine(), surname);
+                String sname = verifyName(sc.nextLine(), SURNAME);
                 baseOfRecords.addRecord(fname, sname, id);
             }
             listOfBooks.get(id).isAvailable = false;
@@ -364,21 +370,23 @@ public class Library {
         int number = verifyId(sc.nextLine());
         System.out.println("Do you want to give " + listOfBooks.get(number) + " back? Please, enter yes or no.");
         String entry = verifyYesOrNo(sc.nextLine());
-        if (no.equals(entry)) {
+        if (NO.equals(entry)) {
             System.out.println("You entered a number, which didn't refer to book, that you want to give back. ");
             giveBookBack();
         }
-        if(yes.equals(entry)) {
+        if(YES.equals(entry)) {
             giveBookBack(number);
             System.out.println(listOfBooks.get(number) + " is accepted.");
         }
         System.out.println("Do you want to give another book back? Please, enter yes or no.");
         String st = verifyYesOrNo(sc.nextLine());
-        if(yes.equals(st))
+        if(YES.equals(st))
             giveBookBack();
     }
     
     //тут має бути метод showDebtors() який показує боржників (Валентин)
+
+
 
     public HashMap<Integer, Book> getListOfBooks() {
         return listOfBooks;
