@@ -1,7 +1,6 @@
 package com.lits.library;
 
 public enum Genre {
-
     ROMANCE,
     ADVENTURE,
     HISTORY,
