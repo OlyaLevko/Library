@@ -5,7 +5,6 @@ import com.lits.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
-
 public class BaseOfUsers {
     private Map<String, User> baseOfUsers;
     //key = login;

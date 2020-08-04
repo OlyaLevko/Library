@@ -1,6 +1,5 @@
 package com.lits.library;
 
-
 import com.lits.servise.UserOption;
 
 import java.util.ArrayList;
@@ -11,8 +10,6 @@ public class BaseOfRecords {
 
     private ArrayList<Record> records;
     public UserOption uo;
-
-
 
 
     public BaseOfRecords() {
@@ -39,7 +36,6 @@ public class BaseOfRecords {
         records.add(new Record(uo.getUserFirstName(), uo.getUserSurname(),   1040, 2020,07,21));
 
     }
-
 
     public Record addRecord(String firstName, String surname, int bookNumber){
         uo.addUser(firstName, surname);

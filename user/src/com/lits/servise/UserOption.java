@@ -5,7 +5,6 @@ import com.lits.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
-
 public class UserOption {
     private User user;
     private BaseOfUsers baseOfUsers;

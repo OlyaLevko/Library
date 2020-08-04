@@ -8,7 +8,6 @@ public class Book {
     boolean isAvailable;//при створенні книги по замовчуванні true, коли user бере книгу,
     //цю змінну міняємо на false
 
-
     public Book(String title, String author, Genre genre) {
 
         this.title = title;

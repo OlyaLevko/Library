@@ -1,10 +1,8 @@
 package com.lits.library;
 
-
 import com.lits.servise.UserOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 
 public class Record {
 
