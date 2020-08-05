@@ -1,0 +1,3 @@
+module Library {
+    requires user;
+}
