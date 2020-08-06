@@ -418,15 +418,6 @@ public class Library {
                 .collect(Collectors.toList());
     }
 
-
-    public void showDebtors() {
-        baseOfRecords.getRecords().stream()
-                .filter(record -> Period.between(record.getDate(), LocalDate.now()).getMonths() >= 1 ||
-                        Period.between(record.getDate(), LocalDate.now()).getYears() >= 1)
-                .peek(System.out::println)
-                .collect(Collectors.toList());
-    }
-
     public HashMap<Integer, Book> getListOfBooks() {
         return listOfBooks;
     }
