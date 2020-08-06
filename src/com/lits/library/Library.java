@@ -324,8 +324,11 @@ public class Library {
         int a = Integer.parseInt(st);
         switchMenuOfTaking(a);
 
-        System.out.println("Please, enter the book number or enter \"exit\" to previous menu.");
-        st = sc.nextLine();
+        do {
+            System.out.println("Please, enter the book number or enter \"exit\" to previous menu.");
+            st = sc.nextLine();
+        }
+        while (!st.toLowerCase().matches("exit|[0-9]"));
         if (EXIT.equals(st.toLowerCase()))
             takeBook();
         int number = verifyId(st);
