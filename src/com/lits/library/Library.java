@@ -282,7 +282,7 @@ public class Library {
 
     public void showByTitle() {
 
-        System.out.println("Please, enter book's title.");
+        System.out.println("Please, enter book's title partially or completely.");
         String title = sc.nextLine();
         try {
             findByTitle(title).forEach((key, value) -> System.out.println(key + " " + value));
@@ -299,7 +299,7 @@ public class Library {
 
     public void showByAuthor() {
 
-        System.out.println("Please, enter author's name.");
+        System.out.println("Please, enter author's name partially or completely.");
         String author = verifyAuthor(sc.nextLine());
         try {
             findByAuthor(author).forEach((key, value) -> System.out.println(key + " " + value));
