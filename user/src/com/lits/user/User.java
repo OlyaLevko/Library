@@ -1,7 +1,7 @@
 package com.lits.user;
 
 public class User {
-    private  String firstName;
+    private String firstName;
     private String surname;
 
     public User() {
@@ -10,6 +10,11 @@ public class User {
     public User(String firstName, String surname) {
         this.firstName = firstName;
         this.surname = surname;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + surname;
     }
 
     public String getFirstName() {

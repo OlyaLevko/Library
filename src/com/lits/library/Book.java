@@ -26,7 +26,7 @@ public class Book {
     }
 
     public void setTitle(String title) {
-        if(title.length() > 0 && title.length() < 40)
+        if (title.length() > 0 && title.length() < 40)
             this.title = title;
     }
 
@@ -35,7 +35,7 @@ public class Book {
     }
 
     public void setAuthor(String author) {
-        if(author.matches("^[\\p{L} .'-]+$"))
+        if (author.matches("^[\\p{L} .'-]+$"))
             this.author = author;
     }
 
@@ -44,7 +44,6 @@ public class Book {
     }
 
     public void setGenre(Genre genre) {
-
         this.genre = genre;
     }
 }
