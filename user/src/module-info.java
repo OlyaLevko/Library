@@ -1,3 +1,4 @@
 module user {
-    exports com.lits.servise;
+
+    exports com.lits.service;
 }

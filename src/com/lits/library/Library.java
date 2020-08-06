@@ -4,16 +4,17 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
-public class Library {
-   private HashMap<Integer, Book> listOfBooks;
-   private BaseOfRecords baseOfRecords;
-   private int maxId;
-   private int minId;
-   final private String YES = "yes", NO = "no",
-           FIRST_NAME = "first name", SURNAME = "surname";
-   Scanner sc = new Scanner(System.in);
 
-    public Library(){
+public class Library {
+    private HashMap<Integer, Book> listOfBooks;
+    private BaseOfRecords baseOfRecords;
+    private int maxId;
+    private int minId;
+    final private String YES = "yes", NO = "no",
+            FIRST_NAME = "first name", SURNAME = "surname";
+    Scanner sc = new Scanner(System.in);
+
+    public Library() {
         listOfBooks = new HashMap<>();
         baseOfRecords = new BaseOfRecords();
         listOfBooks.put(1010, new Book("It Ends With Us", "COLLEEN HOOVER", Genre.ROMANCE));
@@ -29,7 +30,7 @@ public class Library {
         listOfBooks.put(1041, new Book("THE GAME OF KINGS", "DOROTHY DUNNETT", Genre.HISTORY));
         listOfBooks.put(1025, new Book("NEFERTITI", "MICHELLE MORAN", Genre.HISTORY));
         listOfBooks.put(1011, new Book("THE SAMURAI’S GARDEN", "GAIL TSUKIYAMA", Genre.HISTORY));
-        listOfBooks.put(1033, new Book("I Am Watching You", "Teresa Driscoll",Genre.THRILLER));
+        listOfBooks.put(1033, new Book("I Am Watching You", "Teresa Driscoll", Genre.THRILLER));
         listOfBooks.put(1022, new Book("The Woman in the Window", "A. J. Finn", Genre.THRILLER));
         listOfBooks.put(1014, new Book("Lock Every Door", "Riley Sager", Genre.THRILLER));
         listOfBooks.put(1006, new Book("The Glass Hotel", "Emily St. John Mandel", Genre.THRILLER));
@@ -40,7 +41,7 @@ public class Library {
         listOfBooks.put(1042, new Book("The Hound of the Baskervilles", "Arthur Conan Doyle", Genre.DETECTIVE));
         listOfBooks.put(1029, new Book("The Murder of Roger Ackroyd", "Agatha Christie", Genre.DETECTIVE));
         listOfBooks.put(1004, new Book("The Dead of Jericho", "Colin Dexter", Genre.DETECTIVE));
-        listOfBooks.put(1043, new Book ("The Mystery of a Hansom Cab", "Fergus Hume", Genre.DETECTIVE));
+        listOfBooks.put(1043, new Book("The Mystery of a Hansom Cab", "Fergus Hume", Genre.DETECTIVE));
         listOfBooks.put(1007, new Book("Watchmen", "Alan Moore and Dave Gibbons", Genre.COMICS));
         listOfBooks.put(1045, new Book("Sweet Tooth", "Jeff Lemire", Genre.COMICS));
         listOfBooks.put(1031, new Book("Blacksad", "Juan Diaz Canales and Juanjo Guarnido", Genre.COMICS));
@@ -67,116 +68,152 @@ public class Library {
         listOfBooks.put(1037, new Book("The Moral Animal", "Robert Wright", Genre.PHILOSOPHY));
         listOfBooks.put(1030, new Book("Atlas Shrugged", "Ayn Rand", Genre.PHILOSOPHY));
 
-         maxId = listOfBooks.keySet().stream()
-                 .max(Comparator.naturalOrder())
-                 .get();
-         minId = listOfBooks.keySet().stream()
+        maxId = listOfBooks.keySet().stream()
+                .max(Comparator.naturalOrder())
+                .get();
+        minId = listOfBooks.keySet().stream()
                 .min(Comparator.naturalOrder())
                 .get();
 
-         List<Integer> listOfBookNumber = baseOfRecords.getRecords().stream()
-                 .map(Record::getBookNumber)
-                 .collect(Collectors.toList());
+        List<Integer> listOfBookNumber = baseOfRecords.getRecords().stream()
+                .map(Record::getBookNumber)
+                .collect(Collectors.toList());
 
-         listOfBooks.entrySet().stream()
-                 .filter(pair -> listOfBookNumber.contains(pair.getKey()))
-                 .map(pair -> pair.getValue().isAvailable = false)
-                 .collect(Collectors.toSet());
+        listOfBooks.entrySet().stream()
+                .filter(pair -> listOfBookNumber.contains(pair.getKey()))
+                .map(pair -> pair.getValue().isAvailable = false)
+                .collect(Collectors.toSet());
     }
 
-    public void addBook(){
-            System.out.println("Enter the book title.");
-            String title = sc.nextLine();
-            System.out.println("Enter the book author.");
-            String author = verifyAuthor(sc.nextLine());
-            System.out.println("Enter the number of genre.");
-            Genre.listOfGenre();
-            String g = verifyGenre(sc.nextLine());
-            int a = Integer.parseInt(g);
-            Genre genre = Genre.switchGenre(a);
-            Book book = new Book(title, author, genre);
-            System.out.println("Do you want to add " + book + " to the library? Please, enter yes or no.");
-            String st = verifyYesOrNo(sc.nextLine());
-            if (YES.equals(st)) {
-                listOfBooks.put(++maxId, book);
-                System.out.println(book + " was added.\n");
-            }
-            System.out.println("Do you want to add another book? Please, enter yes or no.");
-            st = verifyYesOrNo(sc.nextLine());
-            if(YES.equals(st))
-                addBook();
+    public void addBook() {
+        System.out.println("Enter the book title.");
+        String title = sc.nextLine();
+        System.out.println("Enter the book author.");
+        String author = verifyAuthor(sc.nextLine());
+        System.out.println("Enter the number of genre.");
+        Genre.listOfGenre();
+        String g = verifyGenre(sc.nextLine());
+        int a = Integer.parseInt(g);
+        Genre genre = Genre.switchGenre(a);
+        Book book = new Book(title, author, genre);
+        System.out.println("Do you want to add " + book + " to the library? Please, enter yes or no.");
+        String st = verifyYesOrNo(sc.nextLine());
+        if (YES.equals(st)) {
+            listOfBooks.put(++maxId, book);
+            System.out.println(book + " was added.\n");
+        }
+        System.out.println("Do you want to add another book? Please, enter yes or no.");
+        st = verifyYesOrNo(sc.nextLine());
+        if (YES.equals(st))
+            addBook();
     }
 
     public Book get(int id) {
         return listOfBooks.get(id);
     }
 
-    //метод removeBook() потрібно опрацювати (Мирон)
-        public void removeBook(){
+    public void removeBook() {
 
+        listOfBooks.entrySet().stream()
+                .filter(pair -> pair.getValue().isAvailable)
+                .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                .collect(Collectors.toSet());
+
+        System.out.println("Choice by number book delete");
+        String num = sc.nextLine();
+
+        while (!num.matches("[0-9]+")) {
+            System.out.println("Please, enter correct number");
+            num = sc.nextLine();
         }
+        int id = Integer.parseInt(num);
+        if (listOfBooks.containsKey(id)) {
+            System.out.println(listOfBooks.get(id));
+            System.out.println("Are you sure you want to delete the book - enter \"yes\" or \"no\"?");
+            String choose = sc.nextLine();
+            choose = verifyYesOrNo(choose);
 
-
-    public void showListOfBooks(){
-         listOfBooks.entrySet().stream()
-                 .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
-                 .collect(Collectors.toSet());
+            if (choose.equals("yes")) {
+                Object book = listOfBooks.remove(id);
+                System.out.println(book + " has been deleted\n");
+            }
+        } else {
+            System.out.println("The book number " + id + " is not found");
+        }
+        removeAnotherBook();
     }
 
-    public void showAvailable(){
+    public void removeAnotherBook() {
+        System.out.println("Do you want to choose another book delete - enter \"yes\" or \"no\".");
+        String choice = sc.nextLine();
+        while (!choice.matches("yes|no")) {
+            System.out.println("Please, enter the correct answer");
+            choice = sc.nextLine();
+        }
+        if ("yes".equals(choice))
+            removeBook();
+    }
+
+    public void showListOfBooks() {
+        listOfBooks.entrySet().stream()
+                .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                .collect(Collectors.toSet());
+    }
+
+    public void showAvailable() {
         Set<Map.Entry<Integer, Book>> s =
                 listOfBooks.entrySet().stream()
                         .filter(pair -> pair.getValue().isAvailable)
                         .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
                         .collect(Collectors.toSet());
-        if(s.size() ==0){
+        if (s.size() == 0) {
             System.out.println("There is not any book to take to read.");
         }
     }
 
-    public void showInUsing(){
+    public void showInUsing() {
         Set<Map.Entry<Integer, Book>> s =
                 listOfBooks.entrySet().stream()
-                .filter(pair -> !pair.getValue().isAvailable)
-                .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
-                .collect(Collectors.toSet());
-                if(s.size() ==0){
-                    System.out.println("There is not any book, which is taken to read.");
-                }
+                        .filter(pair -> !pair.getValue().isAvailable)
+                        .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                        .collect(Collectors.toSet());
+        if (s.size() == 0) {
+            System.out.println("There is not any book, which is taken to read.");
+        }
     }
 
-    public Map<Integer, Book> showByGenre(Genre genre){
+    public Map<Integer, Book> showByGenre(Genre genre) {
         Map<Integer, Book> map =
-        listOfBooks.entrySet()
-                .stream()
-                .filter(pair -> pair.getValue().getGenre() == genre)
-                .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                listOfBooks.entrySet()
+                        .stream()
+                        .filter(pair -> pair.getValue().getGenre() == genre)
+                        .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return map;
     }
 
-    public void showByGenre(){
-            System.out.println("Please, choose the number of genre: ");
-            Genre.listOfGenre();
-            String st = verifyGenre(sc.nextLine());
-            int a = Integer.parseInt(st);
-            showByGenre(Genre.switchGenre(a));
-            System.out.println("\nDo you want to choose another genre - enter yes or no.");
-            st = verifyYesOrNo(sc.nextLine());
-            if(YES.equals(st))
-                showByGenre();
+    public void showByGenre() {
+        System.out.println("Please, choose the number of genre: ");
+        Genre.listOfGenre();
+        String st = verifyGenre(sc.nextLine());
+        int a = Integer.parseInt(st);
+        showByGenre(Genre.switchGenre(a));
+        System.out.println("\nDo you want to choose another genre - enter yes or no.");
+        st = verifyYesOrNo(sc.nextLine());
+        if (YES.equals(st))
+            showByGenre();
     }
 
     public String verifyGenre(String s) {
-             while(!s.matches("^([1-9]|10|11|12)")){
-                 System.out.println("You entered an incorrect number of genre. Please, try again.");
-                 Genre.listOfGenre();
-                 s = sc.nextLine();
-             }
-             return s;
-         }
+        while (!s.matches("^([1-9]|10|11|12)")) {
+            System.out.println("You entered an incorrect number of genre. Please, try again.");
+            Genre.listOfGenre();
+            s = sc.nextLine();
+        }
+        return s;
+    }
 
-    public String verifyAuthor(String author){
+    public String verifyAuthor(String author) {
         while (!author.matches("^[\\p{L} .'-]+$")) {
             System.out.println("You entered author incorrectly.");
             System.out.println("Author name can contain only characters, whitespace, dots, apostrophes or dashes.");
@@ -189,35 +226,35 @@ public class Library {
     public String verifyName(String name, String nameType) {
         while (!name.matches("^[A-Z][\\p{L}'-]+$")) {
             System.out.println("You entered an incorrect " + nameType + ".");
-            System.out.println("The " + nameType+ " must begin with a capital letter, can contain only letters, apostrophes or dashes.");
+            System.out.println("The " + nameType + " must begin with a capital letter, can contain only letters, apostrophes or dashes.");
             System.out.println("Please, try again.");
             name = sc.nextLine();
         }
         return name;
     }
 
-    public int verifyId(String entry){
-        while(!entry.matches("[0-9]+")){
-           printEnteringBookNumber();
+    public int verifyId(String entry) {
+        while (!entry.matches("[0-9]+")) {
+            printEnteringBookNumber();
             entry = sc.nextLine();
         }
         int number = Integer.parseInt(entry);
-        while(number< minId || number> maxId){
+        while (number < minId || number > maxId) {
             printEnteringBookNumber();
             number = verifyId(sc.nextLine());
 
         }
-        return  number;
+        return number;
     }
 
     private void printEnteringBookNumber() {
         System.out.println("You entered an incorrect number.");
-        System.out.println("A number must be from " + minId + " up to " +maxId +".");
+        System.out.println("A number must be from " + minId + " up to " + maxId + ".");
         System.out.println("Please try again.");
     }
 
     public String verifyYesOrNo(String s) {
-        while(!s.toLowerCase().matches("yes|no")){
+        while (!s.toLowerCase().matches("yes|no")) {
             System.out.println("Please, enter yes or no.");
             s = sc.nextLine();
         }
@@ -225,51 +262,51 @@ public class Library {
     }
 
     public Map<Integer, Book> findByTitle(String title) throws BookNotFoundException {
-             Map<Integer, Book> book = listOfBooks.entrySet().stream()
-                     .filter(pair -> pair.getValue().getTitle().toLowerCase().contains(title.toLowerCase()))
-                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-             if (book.size() == 0)
-                 throw new BookNotFoundException("The book \"" + title + "\" is not found.");
-             return book;
-         }
-
-    public Map<Integer, Book> findByAuthor(String author) throws AuthorNotFoundException{
-                 Map<Integer, Book> book = listOfBooks.entrySet().stream()
-                         .filter(pair ->pair.getValue().getAuthor().toLowerCase().contains(author.toLowerCase()))
-                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-                 if( book.size() ==0)
-                     throw new AuthorNotFoundException("The book by " + author +" is not found.");
-                 return   book;
+        Map<Integer, Book> book = listOfBooks.entrySet().stream()
+                .filter(pair -> pair.getValue().getTitle().toLowerCase().contains(title.toLowerCase()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        if (book.size() == 0)
+            throw new BookNotFoundException("The book \"" + title + "\" is not found.");
+        return book;
     }
 
-    public void showByTitle(){
-            System.out.println("Please, enter book\'s title.");
-            String title = sc.nextLine();
-                try {
-                    findByTitle(title).forEach((key, value) -> System.out.println(key + " " + value));
-                } catch (BookNotFoundException e) {
-                    System.out.println(e.getMessage());
-                } finally {
-                    System.out.println("Do you want to search another book\'s title? Please, enter yes or no.");
-                    String st = verifyYesOrNo(sc.nextLine());
-                    if(YES.equals(st))
-                        showByTitle();
-                }
+    public Map<Integer, Book> findByAuthor(String author) throws AuthorNotFoundException {
+        Map<Integer, Book> book = listOfBooks.entrySet().stream()
+                .filter(pair -> pair.getValue().getAuthor().toLowerCase().contains(author.toLowerCase()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        if (book.size() == 0)
+            throw new AuthorNotFoundException("The book by " + author + " is not found.");
+        return book;
     }
 
-    public void showByAuthor(){
-            System.out.println("Please, enter author\'s name.");
-            String author = verifyAuthor(sc.nextLine());
-            try {
-                findByAuthor(author).forEach((key, value) -> System.out.println(key + " " + value));
-            } catch (AuthorNotFoundException e) {
-                System.out.println(e.getMessage());
-            } finally {
-                System.out.println("Do you want to search books by another author? Please, enter yes or no.");
-                String st = verifyYesOrNo(sc.nextLine());
-                if(YES.equals(st))
-                    showByAuthor();
-            }
+    public void showByTitle() {
+        System.out.println("Please, enter book\'s title.");
+        String title = sc.nextLine();
+        try {
+            findByTitle(title).forEach((key, value) -> System.out.println(key + " " + value));
+        } catch (BookNotFoundException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Do you want to search another book\'s title? Please, enter yes or no.");
+            String st = verifyYesOrNo(sc.nextLine());
+            if (YES.equals(st))
+                showByTitle();
+        }
+    }
+
+    public void showByAuthor() {
+        System.out.println("Please, enter author\'s name.");
+        String author = verifyAuthor(sc.nextLine());
+        try {
+            findByAuthor(author).forEach((key, value) -> System.out.println(key + " " + value));
+        } catch (AuthorNotFoundException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Do you want to search books by another author? Please, enter yes or no.");
+            String st = verifyYesOrNo(sc.nextLine());
+            if (YES.equals(st))
+                showByAuthor();
+        }
     }
 
     public void takeBook() {
@@ -284,30 +321,29 @@ public class Library {
         switchMenuOfTaking(a);
         System.out.println("Please, enter the book number.");
         int number = verifyId(sc.nextLine());
-        if(get(number).isAvailable){
-        System.out.println("You chose "+number+" "+listOfBooks.get(number)+".");
-        printAcceptToTakeBook();
-        st = sc.nextLine();
-        while(!st.matches("[1-2]")) {
-            System.out.println("You entered an incorrect number. Please, try again.");
+        if (get(number).isAvailable) {
+            System.out.println("You chose " + number + " " + listOfBooks.get(number) + ".");
             printAcceptToTakeBook();
             st = sc.nextLine();
-        }
-        if(st.matches("1")) {
-            takeBook(number);
-            System.out.println("Do you want to choose another book? Please, enter yes or no.");
-            st = verifyYesOrNo(sc.nextLine());
-            if (YES.equals(st))
+            while (!st.matches("[1-2]")) {
+                System.out.println("You entered an incorrect number. Please, try again.");
+                printAcceptToTakeBook();
+                st = sc.nextLine();
+            }
+            if (st.matches("1")) {
+                takeBook(number);
+                System.out.println("Do you want to choose another book? Please, enter yes or no.");
+                st = verifyYesOrNo(sc.nextLine());
+                if (YES.equals(st))
+                    takeBook();
+            }
+            if (st.matches("2"))
                 takeBook();
-        }
-        if(st.matches("2"))
-            takeBook();
-        }
-        else {
+        } else {
             System.out.println("The book is not available to take.");
             System.out.println("Do you want to choose another book?");
             st = verifyYesOrNo(sc.nextLine());
-            if(YES.equals(st))
+            if (YES.equals(st))
                 takeBook();
         }
     }
@@ -326,44 +362,48 @@ public class Library {
 
     private void switchMenuOfTaking(int a) {
         switch (a) {
-            case 1: showByTitle();
+            case 1:
+                showByTitle();
                 break;
-            case 2: showByAuthor();
+            case 2:
+                showByAuthor();
                 break;
-            case 3: showAvailable();
+            case 3:
+                showAvailable();
                 break;
-            case 4: showByGenre();
+            case 4:
+                showByGenre();
                 break;
-            default: System.out.println("Another entering");
+            default:
+                System.out.println("Another entering");
                 break;
         }
     }
 
     public void takeBook(int id) {
-            System.out.println("Please, enter your login.");
-            String login = sc.nextLine();
-            baseOfRecords.uo.setUser(baseOfRecords.uo.getUserByLogin(login));
-            if (baseOfRecords.uo.getMapOfUsers().containsKey(login)) {
-                baseOfRecords.addRecord(baseOfRecords.uo.getUserFirstName(),baseOfRecords.uo.getUserSurname(), id);
-            }
-            else{
-                System.out.println("Please, enter your first name.");
-                String fname = verifyName(sc.nextLine(), FIRST_NAME);
-                System.out.println("Please, enter your surname.");
-                String sname = verifyName(sc.nextLine(), SURNAME);
-                baseOfRecords.addRecord(fname, sname, id);
-            }
-            listOfBooks.get(id).isAvailable = false;
-            System.out.println("You took " + listOfBooks.get(id) + ". You should give it back by "
-            + LocalDate.now().plusMonths(1));
+        System.out.println("Please, enter your login.");
+        String login = sc.nextLine();
+        baseOfRecords.uo.setUser(baseOfRecords.uo.getUserByLogin(login));
+        if (baseOfRecords.uo.getMapOfUsers().containsKey(login)) {
+            baseOfRecords.addRecord(baseOfRecords.uo.getUserFirstName(), baseOfRecords.uo.getUserSurname(), id);
+        } else {
+            System.out.println("Please, enter your first name.");
+            String fname = verifyName(sc.nextLine(), FIRST_NAME);
+            System.out.println("Please, enter your surname.");
+            String sname = verifyName(sc.nextLine(), SURNAME);
+            baseOfRecords.addRecord(fname, sname, id);
+        }
+        listOfBooks.get(id).isAvailable = false;
+        System.out.println("You took " + listOfBooks.get(id) + ". You should give it back by "
+                + LocalDate.now().plusMonths(1));
     }
 
-    public void giveBookBack(int id){
+    public void giveBookBack(int id) {
         listOfBooks.get(id).isAvailable = true;
         baseOfRecords.removeRecord(id);
     }
 
-    public void giveBookBack(){
+    public void giveBookBack() {
         System.out.println("Please, enter the book\'s number, which you want to give back.");
         System.out.println("The book's number is typed on the first page.");
         int number = verifyId(sc.nextLine());
@@ -373,19 +413,23 @@ public class Library {
             System.out.println("You entered a number, which didn't refer to book, that you want to give back. ");
             giveBookBack();
         }
-        if(YES.equals(entry)) {
+        if (YES.equals(entry)) {
             giveBookBack(number);
             System.out.println(listOfBooks.get(number) + " is accepted.");
         }
         System.out.println("Do you want to give another book back? Please, enter yes or no.");
         String st = verifyYesOrNo(sc.nextLine());
-        if(YES.equals(st))
+        if (YES.equals(st))
             giveBookBack();
     }
-    
-    //тут має бути метод showDebtors() який показує боржників (Валентин)
 
-
+    public void showDebtors() {
+        baseOfRecords.getRecords().stream()
+                .filter(record -> Period.between(record.getDate(), LocalDate.now()).getMonths() >= 1 ||
+                        Period.between(record.getDate(), LocalDate.now()).getYears() >= 1)
+                .peek(System.out::println)
+                .collect(Collectors.toList());
+    }
 
     public HashMap<Integer, Book> getListOfBooks() {
         return listOfBooks;

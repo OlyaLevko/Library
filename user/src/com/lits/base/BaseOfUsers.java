@@ -1,8 +1,7 @@
 package com.lits.base;
 
-import com.lits.servise.UserOption;
+import com.lits.service.UserOption;
 import com.lits.user.User;
-
 import java.util.HashMap;
 import java.util.Map;
 public class BaseOfUsers {
