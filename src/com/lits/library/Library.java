@@ -114,11 +114,47 @@ public class Library {
         return listOfBooks.get(id);
     }
 
-    //метод removeBook() потрібно опрацювати (Мирон)
     public void removeBook() {
 
+        listOfBooks.entrySet().stream()
+                .filter(pair -> pair.getValue().isAvailable)
+                .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                .collect(Collectors.toSet());
+
+        System.out.println("Choice by number book delete");
+        String num = sc.nextLine();
+
+        while (!num.matches("[0-9]+")) {
+            System.out.println("Please, enter correct number");
+            num = sc.nextLine();
+        }
+        int id = Integer.parseInt(num);
+        if (listOfBooks.containsKey(id)) {
+            System.out.println(listOfBooks.get(id));
+            System.out.println("Are you sure you want to delete the book - enter \"yes\" or \"no\"?");
+            String choose = sc.nextLine();
+            choose = verifyYesOrNo(choose);
+
+            if (choose.equals("yes")) {
+                Object book = listOfBooks.remove(id);
+                System.out.println(book + " has been deleted\n");
+            }
+        } else {
+            System.out.println("The book number " + id + " is not found");
+        }
+        removeAnotherBook();
     }
 
+    public void removeAnotherBook() {
+        System.out.println("Do you want to choose another book delete - enter \"yes\" or \"no\".");
+        String choice = sc.nextLine();
+        while (!choice.matches("yes|no")) {
+            System.out.println("Please, enter the correct answer");
+            choice = sc.nextLine();
+        }
+        if ("yes".equals(choice))
+            removeBook();
+    }
 
     public void showListOfBooks() {
         listOfBooks.entrySet().stream()
@@ -148,12 +184,14 @@ public class Library {
         }
     }
 
+
     public void showByGenre(Genre genre) {
         listOfBooks.entrySet()
                 .stream()
                 .filter(pair -> pair.getValue().getGenre() == genre)
                 .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
     }
 
     public void showByGenre() {
@@ -243,6 +281,7 @@ public class Library {
     }
 
     public void showByTitle() {
+
         System.out.println("Please, enter book's title.");
         String title = sc.nextLine();
         try {
@@ -250,6 +289,7 @@ public class Library {
         } catch (BookNotFoundException e) {
             System.out.println(e.getMessage());
         } finally {
+
             System.out.println("Do you want to search another book's title? Please, enter yes or no.");
             String st = verifyYesOrNo(sc.nextLine());
             if (YES.equals(st))
@@ -258,6 +298,7 @@ public class Library {
     }
 
     public void showByAuthor() {
+
         System.out.println("Please, enter author's name.");
         String author = verifyAuthor(sc.nextLine());
         try {
@@ -282,6 +323,7 @@ public class Library {
         }
         int a = Integer.parseInt(st);
         switchMenuOfTaking(a);
+
         System.out.println("Please, enter the book number or enter \"exit\" to previous menu.");
         st = sc.nextLine();
         if (EXIT.equals(st.toLowerCase()))
@@ -314,6 +356,7 @@ public class Library {
 
     private void switchMenuOfTaking(int a) {
         switch (a) {
+
             case 1 -> showByTitle();
             case 2 -> showByAuthor();
             case 3 -> showAvailable();
@@ -334,7 +377,6 @@ public class Library {
             System.out.println("Please, enter your surname.");
             String sname = verifyName(sc.nextLine(), SURNAME);
             baseOfRecords.addRecord(fname, sname, id);
-
         }
         listOfBooks.get(id).isAvailable = false;
         System.out.println("You took " + listOfBooks.get(id) + ". You should give it back by "
@@ -347,6 +389,7 @@ public class Library {
     }
 
     public void giveBookBack() {
+
         System.out.println("Please, enter the book's number, which you want to give back.");
         System.out.println("The book's number is typed on the first page.");
         int number = verifyId(sc.nextLine());
@@ -366,6 +409,7 @@ public class Library {
             giveBookBack();
     }
 
+
     public void showDebtors() {
         baseOfRecords.getRecords().stream()
                 .filter(record -> Period.between(record.getDate(), LocalDate.now()).getMonths() >= 1 ||
@@ -374,6 +418,14 @@ public class Library {
                 .collect(Collectors.toList());
     }
 
+
+    public void showDebtors() {
+        baseOfRecords.getRecords().stream()
+                .filter(record -> Period.between(record.getDate(), LocalDate.now()).getMonths() >= 1 ||
+                        Period.between(record.getDate(), LocalDate.now()).getYears() >= 1)
+                .peek(System.out::println)
+                .collect(Collectors.toList());
+    }
 
     public HashMap<Integer, Book> getListOfBooks() {
         return listOfBooks;

@@ -1,7 +1,7 @@
 package com.lits.base;
 
-import com.lits.user.User;
 
+import com.lits.user.User;
 import java.util.HashMap;
 import java.util.Map;
 
