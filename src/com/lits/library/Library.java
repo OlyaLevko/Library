@@ -2,16 +2,18 @@ package com.lits.library;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class Library {
+
     private HashMap<Integer, Book> listOfBooks;
     private BaseOfRecords baseOfRecords;
     private int maxId;
     private int minId;
-    final private String YES = "yes", NO = "no",
-            FIRST_NAME = "first name", SURNAME = "surname";
+    private static final String YES = "yes", NO = "no",
+            FIRST_NAME = "first name", SURNAME = "surname", EXIT = "exit";
     Scanner sc = new Scanner(System.in);
 
     public Library() {
@@ -182,14 +184,14 @@ public class Library {
         }
     }
 
-    public Map<Integer, Book> showByGenre(Genre genre) {
-        Map<Integer, Book> map =
-                listOfBooks.entrySet()
-                        .stream()
-                        .filter(pair -> pair.getValue().getGenre() == genre)
-                        .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return map;
+
+    public void showByGenre(Genre genre) {
+        listOfBooks.entrySet()
+                .stream()
+                .filter(pair -> pair.getValue().getGenre() == genre)
+                .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
     }
 
     public void showByGenre() {
@@ -242,7 +244,6 @@ public class Library {
         while (number < minId || number > maxId) {
             printEnteringBookNumber();
             number = verifyId(sc.nextLine());
-
         }
         return number;
     }
@@ -280,14 +281,16 @@ public class Library {
     }
 
     public void showByTitle() {
-        System.out.println("Please, enter book\'s title.");
+
+        System.out.println("Please, enter book's title.");
         String title = sc.nextLine();
         try {
             findByTitle(title).forEach((key, value) -> System.out.println(key + " " + value));
         } catch (BookNotFoundException e) {
             System.out.println(e.getMessage());
         } finally {
-            System.out.println("Do you want to search another book\'s title? Please, enter yes or no.");
+
+            System.out.println("Do you want to search another book's title? Please, enter yes or no.");
             String st = verifyYesOrNo(sc.nextLine());
             if (YES.equals(st))
                 showByTitle();
@@ -295,7 +298,8 @@ public class Library {
     }
 
     public void showByAuthor() {
-        System.out.println("Please, enter author\'s name.");
+
+        System.out.println("Please, enter author's name.");
         String author = verifyAuthor(sc.nextLine());
         try {
             findByAuthor(author).forEach((key, value) -> System.out.println(key + " " + value));
@@ -319,38 +323,28 @@ public class Library {
         }
         int a = Integer.parseInt(st);
         switchMenuOfTaking(a);
-        System.out.println("Please, enter the book number.");
-        int number = verifyId(sc.nextLine());
+
+        System.out.println("Please, enter the book number or enter \"exit\" to previous menu.");
+        st = sc.nextLine();
+        if (EXIT.equals(st.toLowerCase()))
+            takeBook();
+        int number = verifyId(st);
         if (get(number).isAvailable) {
             System.out.println("You chose " + number + " " + listOfBooks.get(number) + ".");
-            printAcceptToTakeBook();
-            st = sc.nextLine();
-            while (!st.matches("[1-2]")) {
-                System.out.println("You entered an incorrect number. Please, try again.");
-                printAcceptToTakeBook();
-                st = sc.nextLine();
-            }
-            if (st.matches("1")) {
-                takeBook(number);
-                System.out.println("Do you want to choose another book? Please, enter yes or no.");
-                st = verifyYesOrNo(sc.nextLine());
-                if (YES.equals(st))
-                    takeBook();
-            }
-            if (st.matches("2"))
-                takeBook();
-        } else {
-            System.out.println("The book is not available to take.");
-            System.out.println("Do you want to choose another book?");
+            System.out.println("Do you want to take this book? Please, enter yes or no.");
             st = verifyYesOrNo(sc.nextLine());
             if (YES.equals(st))
-                takeBook();
-        }
+                takeBook(number);
+        } else
+            System.out.println("The book is not available to take.");
+        takeAnotherBook();
     }
 
-    private void printAcceptToTakeBook() {
-        System.out.println("To take the book - enter 1");
-        System.out.println("To choose another book - enter 2");
+    private void takeAnotherBook() {
+        System.out.println("Do you want to choose another book? Please, enter yes or no.");
+        String st = verifyYesOrNo(sc.nextLine());
+        if (YES.equals(st))
+            takeBook();
     }
 
     private void printMenuOfTaking() {
@@ -362,21 +356,12 @@ public class Library {
 
     private void switchMenuOfTaking(int a) {
         switch (a) {
-            case 1:
-                showByTitle();
-                break;
-            case 2:
-                showByAuthor();
-                break;
-            case 3:
-                showAvailable();
-                break;
-            case 4:
-                showByGenre();
-                break;
-            default:
-                System.out.println("Another entering");
-                break;
+
+            case 1 -> showByTitle();
+            case 2 -> showByAuthor();
+            case 3 -> showAvailable();
+            case 4 -> showByGenre();
+            default -> System.out.println("Another entering");
         }
     }
 
@@ -395,7 +380,7 @@ public class Library {
         }
         listOfBooks.get(id).isAvailable = false;
         System.out.println("You took " + listOfBooks.get(id) + ". You should give it back by "
-                + LocalDate.now().plusMonths(1));
+                + DateTimeFormatter.ofPattern("dd.MM.yyyy").format(LocalDate.now().plusMonths(1)));
     }
 
     public void giveBookBack(int id) {
@@ -404,7 +389,8 @@ public class Library {
     }
 
     public void giveBookBack() {
-        System.out.println("Please, enter the book\'s number, which you want to give back.");
+
+        System.out.println("Please, enter the book's number, which you want to give back.");
         System.out.println("The book's number is typed on the first page.");
         int number = verifyId(sc.nextLine());
         System.out.println("Do you want to give " + listOfBooks.get(number) + " back? Please, enter yes or no.");
@@ -422,6 +408,16 @@ public class Library {
         if (YES.equals(st))
             giveBookBack();
     }
+
+
+    public void showDebtors() {
+        baseOfRecords.getRecords().stream()
+                .filter(record -> Period.between(record.getDate(), LocalDate.now()).getMonths() >= 1 ||
+                        Period.between(record.getDate(), LocalDate.now()).getYears() >= 1)
+                .peek(System.out::println)
+                .collect(Collectors.toList());
+    }
+
 
     public void showDebtors() {
         baseOfRecords.getRecords().stream()

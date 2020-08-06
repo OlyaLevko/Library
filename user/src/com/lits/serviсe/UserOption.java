@@ -1,25 +1,27 @@
-package com.lits.servise;
+package com.lits.serviсe;
 
 import com.lits.base.BaseOfUsers;
 import com.lits.user.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 public class UserOption {
     private User user;
     private BaseOfUsers baseOfUsers;
 
-    public BaseOfUsers downloadBaseOfUsers(){
+    public BaseOfUsers downloadBaseOfUsers() {
         baseOfUsers = new BaseOfUsers();
         return baseOfUsers;
     }
 
-    public User addUser(){
+    public User addUser() {
         this.user = new User();
         return user;
     }
 
-    public User addUser(String firstName, String surName){
+    public User addUser(String firstName, String surName) {
         this.user = new User(firstName, surName);
         return user;
     }
@@ -29,10 +31,9 @@ public class UserOption {
     }
 
     public void setUserFirstName(String firstName) {
-        if(firstName.matches("^[A-Z][\\p{L}'-]+$")) {
+        if (firstName.matches("^[A-Z][\\p{L}'-]+$")) {
             user.setFirstName(firstName);
-        }
-        else System.out.println("You are trying to enter an incorrect First name.");
+        } else System.out.println("You are trying to enter an incorrect First name.");
     }
 
     public String getUserSurname() {
@@ -40,13 +41,12 @@ public class UserOption {
     }
 
     public void setUserSurname(String surname) {
-        if(surname.matches("^[A-Z][\\p{L}'-]+$")) {
+        if (surname.matches("^[A-Z][\\p{L}'-]+$")) {
             user.setSurname(surname);
-        }
-        else System.out.println("You are trying to enter an incorrect surname.");
+        } else System.out.println("You are trying to enter an incorrect surname.");
     }
-    
-    public User getUserByLogin(String login){
+
+    public User getUserByLogin(String login) {
         return baseOfUsers.getUser(login);
     }
 
@@ -61,7 +61,8 @@ public class UserOption {
     public BaseOfUsers getBaseOfUsers() {
         return baseOfUsers;
     }
-    public Map<String, User> getMapOfUsers(){
+
+    public Map<String, User> getMapOfUsers() {
         return baseOfUsers.getBaseOfUsers();
     }
 
