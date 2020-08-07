@@ -1,5 +1,6 @@
-package com.lits.library;
+package com.lits.library.service;
 
+import com.lits.library.books.Library;
 import java.util.Scanner;
 
 public class Menu {

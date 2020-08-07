@@ -1,4 +1,6 @@
-package com.lits.library;
+package com.lits.library.service;
+
+import com.lits.library.books.Library;
 
 public class UserService {
 
