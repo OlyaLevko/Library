@@ -165,11 +165,9 @@ public class Library {
 
     public void showInUsing() {
 
-        Set<Map.Entry<Integer, Book>> s =
-                listOfBooks.entrySet().stream()
-                        .filter(pair -> !pair.getValue().isAvailable)
-                        .peek(pair -> System.out.println(pair.getKey() + " " + pair.getValue()))
-                        .collect(Collectors.toSet());
+        List<Record> s = baseOfRecords.getRecords().stream()
+                .peek(e -> System.out.println(e + " (" + listOfBooks.get(e.getBookNumber()) + ")."))
+                .collect(Collectors.toList());
         if (s.size() == 0) {
             System.out.println("There is not any book, which is taken to read.");
         }
@@ -220,7 +218,7 @@ public class Library {
 
     public void showByTitle() {
 
-        System.out.println("Please, enter book's title.");
+        System.out.println("Please, enter book's title  partially or completely..");
         String title = sc.nextLine();
         try {
             findByTitle(title).forEach((key, value) -> System.out.println(key + " " + value));
@@ -237,7 +235,7 @@ public class Library {
 
     public void showByAuthor() {
 
-        System.out.println("Please, enter author's name.");
+        System.out.println("Please, enter author's name  partially or completely..");
         String author = verifyAuthor(sc.nextLine());
         try {
             findByAuthor(author).forEach((key, value) -> System.out.println(key + " " + value));
@@ -256,15 +254,19 @@ public class Library {
         System.out.println("Please, enter the book's number, which you want to give back.");
         System.out.println("The book's number is typed on the first page.");
         int number = verifyId(sc.nextLine());
-        System.out.println("Do you want to give " + listOfBooks.get(number) + " back? Please, enter yes or no.");
-        String entry = verifyYesOrNo(sc.nextLine());
-        if (NO.equals(entry)) {
-            System.out.println("You entered a number, which didn't refer to book, that you want to give back. ");
-            giveBookBack();
-        }
-        if (YES.equals(entry)) {
-            giveBookBack(number);
-            System.out.println(listOfBooks.get(number) + " is accepted.");
+        if(!listOfBooks.get(number).isAvailable) {
+            System.out.println("Do you want to give " + listOfBooks.get(number) + " back? Please, enter yes or no.");
+            String entry = verifyYesOrNo(sc.nextLine());
+            if (NO.equals(entry)) {
+                System.out.println("You entered a number, which didn't refer to book, that you want to give back. ");
+            }
+            if (YES.equals(entry)) {
+                giveBookBack(number);
+                System.out.println(listOfBooks.get(number) + " is accepted.");
+            }
+        } else {
+            System.out.println(number + " " + listOfBooks.get(number) +  "is checked as available.");
+            System.out.println("You can't give this book back.");
         }
         System.out.println("Do you want to give another book back? Please, enter yes or no.");
         String st = verifyYesOrNo(sc.nextLine());
@@ -276,7 +278,7 @@ public class Library {
         baseOfRecords.getRecords().stream()
                 .filter(record -> Period.between(record.getDate(), LocalDate.now()).getMonths() >= 1 ||
                         Period.between(record.getDate(), LocalDate.now()).getYears() >= 1)
-                .peek(System.out::println)
+                .peek(e -> System.out.println(e + " (" + listOfBooks.get(e.getBookNumber()) + ")."))
                 .collect(Collectors.toList());
     }
 
@@ -457,5 +459,4 @@ public class Library {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
     }
-
 }
