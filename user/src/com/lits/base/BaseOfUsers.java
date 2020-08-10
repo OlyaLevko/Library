@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class BaseOfUsers {
     private Map<String, User> baseOfUsers;
-    //key = login;
 
     public BaseOfUsers() {
         this.baseOfUsers = new HashMap<>();
