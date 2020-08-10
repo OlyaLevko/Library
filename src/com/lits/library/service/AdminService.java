@@ -8,7 +8,7 @@ import java.util.*;
 public class AdminService {
 
     private final String LOGIN_ADMIN = "admin";
-    Library library;
+    private Library library;
     Scanner sc = new Scanner(System.in);
 
     public AdminService(Library library) {
@@ -87,5 +87,13 @@ public class AdminService {
                 library.showAvailable();
             }
         }
+    }
+
+    public Library getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(Library library) {
+        this.library = library;
     }
 }
