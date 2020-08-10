@@ -1,12 +1,14 @@
-package com.lits.library;
+package com.lits.library.service;
+
+import com.lits.library.books.Library;
 
 import java.util.Scanner;
 
 public class Menu {
 
-    Library library = new Library();
-    UserService us = new UserService(library);
-    AdminService as = new AdminService(library);
+    private Library library = new Library();
+    private UserService us = new UserService(library);
+    private AdminService as = new AdminService(library);
     Scanner sc = new Scanner(System.in);
 
     // start program
@@ -35,5 +37,29 @@ public class Menu {
                 System.exit(0);
             }
         } while (true);
+    }
+
+    public Library getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(Library library) {
+        this.library = library;
+    }
+
+    public UserService getUs() {
+        return us;
+    }
+
+    public void setUs(UserService us) {
+        this.us = us;
+    }
+
+    public AdminService getAs() {
+        return as;
+    }
+
+    public void setAs(AdminService as) {
+        this.as = as;
     }
 }

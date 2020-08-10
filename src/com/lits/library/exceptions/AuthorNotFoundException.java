@@ -1,4 +1,4 @@
-package com.lits.library;
+package com.lits.library.exceptions;
 
 public class AuthorNotFoundException extends RuntimeException{
 

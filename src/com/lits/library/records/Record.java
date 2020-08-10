@@ -1,8 +1,6 @@
-package com.lits.library;
+package com.lits.library.records;
 
-
-
-import com.lits.service.UserOption;
+import com.lits.serviсe.UserOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 

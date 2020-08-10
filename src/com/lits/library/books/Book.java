@@ -1,12 +1,11 @@
-package com.lits.library;
+package com.lits.library.books;
 
 public class Book {
 
     private String title;
     private String author;
     private Genre genre;
-    boolean isAvailable;//при створенні книги по замовчуванні true, коли user бере книгу,
-    //цю змінну міняємо на false
+    boolean isAvailable;
 
     public Book(String title, String author, Genre genre) {
 

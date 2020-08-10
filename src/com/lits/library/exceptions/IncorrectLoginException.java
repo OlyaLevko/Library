@@ -1,4 +1,4 @@
-package com.lits.library;
+package com.lits.library.exceptions;
 
 import java.util.InputMismatchException;
 

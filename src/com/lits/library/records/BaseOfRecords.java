@@ -1,11 +1,7 @@
-package com.lits.library;
-
+package com.lits.library.records;
 
 import com.lits.serviсe.UserOption;
-
 import java.util.ArrayList;
-
-//група показує базу всіх записів, якщо user бере книгу, ми додаємо новий запис.
 
 public class BaseOfRecords {
 
