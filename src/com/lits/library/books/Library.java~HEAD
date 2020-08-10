@@ -220,7 +220,7 @@ public class Library {
 
     public void showByTitle() {
 
-        System.out.println("Please, enter book's title  partially or completely..");
+        System.out.println("Please, enter book's title.");
         String title = sc.nextLine();
         try {
             findByTitle(title).forEach((key, value) -> System.out.println(key + " " + value));
@@ -237,7 +237,7 @@ public class Library {
 
     public void showByAuthor() {
 
-        System.out.println("Please, enter author's name  partially or completely..");
+        System.out.println("Please, enter author's name.");
         String author = verifyAuthor(sc.nextLine());
         try {
             findByAuthor(author).forEach((key, value) -> System.out.println(key + " " + value));
@@ -386,6 +386,72 @@ public class Library {
         return book;
     }
 
+<<<<<<< HEAD:src/com/lits/library/books/Library.java
+=======
+    public void showByTitle() {
+
+        System.out.println("Please, enter book's title partially or completely.");
+        String title = sc.nextLine();
+        try {
+            findByTitle(title).forEach((key, value) -> System.out.println(key + " " + value));
+        } catch (BookNotFoundException e) {
+            System.out.println(e.getMessage());
+        } finally {
+
+            System.out.println("Do you want to search another book's title? Please, enter yes or no.");
+            String st = verifyYesOrNo(sc.nextLine());
+            if (YES.equals(st))
+                showByTitle();
+        }
+    }
+
+    public void showByAuthor() {
+
+        System.out.println("Please, enter author's name partially or completely.");
+        String author = verifyAuthor(sc.nextLine());
+        try {
+            findByAuthor(author).forEach((key, value) -> System.out.println(key + " " + value));
+        } catch (AuthorNotFoundException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Do you want to search books by another author? Please, enter yes or no.");
+            String st = verifyYesOrNo(sc.nextLine());
+            if (YES.equals(st))
+                showByAuthor();
+        }
+    }
+
+    public void takeBook() {
+        String st;
+        printMenuOfTaking();
+        st = sc.nextLine();
+        while (!st.matches("^[1-4]")) {
+            System.out.println("You entered an incorrect number. Please try again.");
+            takeBook();
+        }
+        int a = Integer.parseInt(st);
+        switchMenuOfTaking(a);
+
+        do {
+            System.out.println("Please, enter the book number or enter \"exit\" to previous menu.");
+            st = sc.nextLine();
+        }
+        while (!st.toLowerCase().matches("exit|[0-9]"));
+        if (EXIT.equals(st.toLowerCase()))
+            takeBook();
+        int number = verifyId(st);
+        if (get(number).isAvailable) {
+            System.out.println("You chose " + number + " " + listOfBooks.get(number) + ".");
+            System.out.println("Do you want to take this book? Please, enter yes or no.");
+            st = verifyYesOrNo(sc.nextLine());
+            if (YES.equals(st))
+                takeBook(number);
+        } else
+            System.out.println("The book is not available to take.");
+        takeAnotherBook();
+    }
+
+>>>>>>> d7f8844dc628fe27fca166951a11617ec6c89569:src/com/lits/library/Library.java
     private void takeAnotherBook() {
         System.out.println("Do you want to choose another book? Please, enter yes or no.");
         String st = verifyYesOrNo(sc.nextLine());
@@ -434,8 +500,51 @@ public class Library {
         baseOfRecords.removeRecord(id);
     }
 
+<<<<<<< HEAD:src/com/lits/library/books/Library.java
     private Book get(int id) {
         return listOfBooks.get(id);
+=======
+    public void giveBookBack() {
+
+        System.out.println("Please, enter the book's number, which you want to give back.");
+        System.out.println("The book's number is typed on the first page.");
+        int number = verifyId(sc.nextLine());
+        System.out.println("Do you want to give " + listOfBooks.get(number) + " back? Please, enter yes or no.");
+        String entry = verifyYesOrNo(sc.nextLine());
+        if (NO.equals(entry)) {
+            System.out.println("You entered a number, which didn't refer to book, that you want to give back. ");
+            giveBookBack();
+        }
+        if (YES.equals(entry)) {
+            giveBookBack(number);
+            System.out.println(listOfBooks.get(number) + " is accepted.");
+        }
+        System.out.println("Do you want to give another book back? Please, enter yes or no.");
+        String st = verifyYesOrNo(sc.nextLine());
+        if (YES.equals(st))
+            giveBookBack();
+    }
+
+
+    public void showDebtors() {
+        baseOfRecords.getRecords().stream()
+                .filter(record -> Period.between(record.getDate(), LocalDate.now()).getMonths() >= 1 ||
+                        Period.between(record.getDate(), LocalDate.now()).getYears() >= 1)
+                .peek(System.out::println)
+                .collect(Collectors.toList());
+    }
+
+    public HashMap<Integer, Book> getListOfBooks() {
+        return listOfBooks;
+    }
+
+    public void setListOfBooks(HashMap<Integer, Book> listOfBooks) {
+        this.listOfBooks = listOfBooks;
+    }
+
+    public BaseOfRecords getBaseOfRecords() {
+        return baseOfRecords;
+>>>>>>> d7f8844dc628fe27fca166951a11617ec6c89569:src/com/lits/library/Library.java
     }
 
     private void removeAnotherBook() {
@@ -459,4 +568,11 @@ public class Library {
     }
 
 
+<<<<<<< HEAD:src/com/lits/library/books/Library.java
 }
+=======
+    public void setMinId(int minId) {
+        this.minId = minId;
+    }
+}
+>>>>>>> d7f8844dc628fe27fca166951a11617ec6c89569:src/com/lits/library/Library.java
