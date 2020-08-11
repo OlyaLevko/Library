@@ -191,29 +191,33 @@ public class Library {
         String st;
         printMenuOfTaking();
         st = sc.nextLine();
-        while (!st.matches("^[1-4]")) {
+        while (!st.matches("^[1-5]")) {
             System.out.println("You entered an incorrect number. Please try again.");
             takeBook();
         }
         int a = Integer.parseInt(st);
-        switchMenuOfTaking(a);
-        do {
-            System.out.println("Please, enter the book number or enter \"exit\" to previous menu.");
-            st = sc.nextLine();
+        if (a != 5) {
+            switchMenuOfTaking(a);
+            do {
+                System.out.println("Please, enter the book number or enter \"exit\" to previous menu.");
+                st = sc.nextLine();
+            }
+            while (!st.toLowerCase().matches("exit|[0-9]+"));
+            if (EXIT.equals(st.toLowerCase())) {
+                takeBook();
+            } else {
+                int number = verifyId(st);
+                if (get(number).isAvailable) {
+                    System.out.println("You chose " + number + " " + listOfBooks.get(number) + ".");
+                    System.out.println("Do you want to take this book? Please, enter yes or no.");
+                    st = verifyYesOrNo(sc.nextLine());
+                    if (YES.equals(st))
+                        takeBook(number);
+                } else
+                    System.out.println("The book is not available to take.");
+                takeAnotherBook();
+            }
         }
-        while (!st.toLowerCase().matches("exit|[0-9]+"));
-        if (EXIT.equals(st.toLowerCase()))
-            takeBook();
-        int number = verifyId(st);
-        if (get(number).isAvailable) {
-            System.out.println("You chose " + number + " " + listOfBooks.get(number) + ".");
-            System.out.println("Do you want to take this book? Please, enter yes or no.");
-            st = verifyYesOrNo(sc.nextLine());
-            if (YES.equals(st))
-                takeBook(number);
-        } else
-            System.out.println("The book is not available to take.");
-        takeAnotherBook();
     }
 
     public void showByTitle() {
@@ -400,6 +404,7 @@ public class Library {
         System.out.println("To search by author - enter 2");
         System.out.println("To view available book - enter 3");
         System.out.println("To view by genre - enter 4");
+        System.out.println("To previous menu - enter 5");
     }
 
     private void switchMenuOfTaking(int a) {
