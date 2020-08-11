@@ -15,10 +15,6 @@ public class AdminService {
         this.library = library;
     }
 
-    private boolean isAdmin(String login) {
-        return LOGIN_ADMIN.equals(login);
-    }
-
     public void enterLogin() {
         System.out.println("Enter login");
         String login = sc.nextLine();
@@ -68,6 +64,14 @@ public class AdminService {
             adminMenu();
     }
 
+    public Library getLibrary() {
+        return library;
+    }
+
+    public void setLibrary(Library library) {
+        this.library = library;
+    }
+
     private void adminChoice(int choice) {
 
         switch (choice) {
@@ -89,11 +93,8 @@ public class AdminService {
         }
     }
 
-    public Library getLibrary() {
-        return library;
+    private boolean isAdmin(String login) {
+        return LOGIN_ADMIN.equals(login);
     }
 
-    public void setLibrary(Library library) {
-        this.library = library;
-    }
 }
